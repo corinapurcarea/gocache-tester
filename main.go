@@ -53,14 +53,17 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	time.Sleep(4 * time.Second) //let it time to expire
+
+	//sleep so entries expire from ristretto and redis
+	time.Sleep(4 * time.Second)
 
 	var retValue Book
 
 	_, _ = marshal.Get(key, &retValue)
 	log.Printf("returned value: %v\n", retValue)
 
-	time.Sleep(1 * time.Second) // for ristretto to accept the value
+	// give ristretto some time to accept the item
+	time.Sleep(1 * time.Second)
 
 	_, _ = marshal.Get(key, &retValue)
 	log.Printf("returned value: %v\n", retValue)
